@@ -31,9 +31,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-//                    .antMatchers("/post/").hasAuthority("ADMIN")
-//                    .antMatchers("post/**").hasAnyAuthority("USER", "ADMIN")
-                    .antMatchers("feed/**").permitAll()
+//                    .antMatchers("feed/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

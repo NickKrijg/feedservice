@@ -21,6 +21,6 @@ public class RabbitMQConsumer {
     @RabbitListener(queuesToDeclare = @Queue(name = RabbitMQConfig.queueForget, durable = "true"))
     public void receivedForget(String username) {
         System.out.println("Forget: received " + username);
-//        feedService.deleteAllByUsername(username);
+        feedService.deleteAllByUsername(username);
     }
 }
