@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/feed")
 @CrossOrigin(origins = {"http://localhost:8080/", "*"})
@@ -27,7 +30,8 @@ public class FeedController {
 
     @GetMapping("/setfeed")
     public boolean setFeed() {
-        return feedService.setFeed();
+        List<Post> emptyList = new ArrayList<>();
+        return feedService.setFeed(emptyList);
     }
 
     @GetMapping("/test")

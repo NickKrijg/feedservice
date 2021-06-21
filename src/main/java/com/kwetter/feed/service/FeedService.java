@@ -31,15 +31,7 @@ public class FeedService {
         return Arrays.asList(gson.fromJson(feedString, Post[].class));
     }
 
-    public boolean setFeed() {
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post("user1", "content1"));
-        posts.add(new Post("user2", "content2"));
-        posts.add(new Post("user3", "content3"));
-        posts.add(new Post("user4", "content4"));
-        posts.add(new Post("user5", "content5"));
-        posts.add(new Post("user6", "content6"));
-
+    public boolean setFeed(List<Post> posts) {
         var gson = new Gson();
         try{
             redisTemplate.opsForValue().set("feedCache", gson.toJson(posts));
@@ -49,7 +41,7 @@ public class FeedService {
         }
     }
 
-    @CacheEvict("feedCache")
+    @CacheEvict(value = "feedCache", allEntries = true)
     public void deleteAllByUsername(String username) {
         String feedString = redisTemplate.opsForValue().get("feedCache");
         var gson = new Gson();
@@ -58,6 +50,7 @@ public class FeedService {
 
         postList.removeIf(post -> post.getUsername().equals(username));
 
+        redisTemplate.delete("feedCache");
         redisTemplate.opsForValue().set("feedCache", gson.toJson(postList));
     }
 }
