@@ -27,10 +27,11 @@ public class RabbitMQConsumer {
         feedService.deleteAllByUsername(username);
     }
 
-    @RabbitListener(queues = RabbitMQConfig.queueFeed)
+    @RabbitListener(queuesToDeclare = @Queue(name = RabbitMQConfig.queueFeed, durable = "true"))
     public void receivedFeed(Iterable<Post> posts){
         System.out.println("New cache data");
         List<Post> result = (List<Post>) posts;
+        System.out.println(result.size());
         feedService.setFeed(result);
     }
 }
